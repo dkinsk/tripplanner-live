@@ -54,15 +54,15 @@ $(function initializeMap (){
       position: latLng
     });
     marker.setMap(currentMap);
+    return marker;
   }
-
+  let markerObj = {};
   // drawMarker('hotel', [40.705137, -74.007624]);
   // drawMarker('restaurant', [40.705137, -74.013940]);
   // drawMarker('activity', [40.716291, -73.995315]);
   $("button[data-action='add']").on("click", function(event){
     let closest = $(this).closest('div').attr('class');
     let selected = $(this).closest('div').find(":selected").text();
-    console.log(selected)
     let array;
 
     switch(closest){
@@ -82,12 +82,21 @@ $(function initializeMap (){
     array.forEach(item => {
       if(item.name === selected){
         let obj = item; 
-        console.log(obj)
-    $('.my-' + closest).append('<span class="title">' + obj.name + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button>')
-    drawMarker(closest, obj.place.location);
+    $('.my-' + closest).append('<span class="title">' + obj.name + '</span><button data-action="remove" class="btn btn-xs btn-danger remove btn-circle">x</button>')
+    markerObj[obj.name] = drawMarker(closest, obj.place.location);
     }
   });
 });
+
+  $('#itinerary').on("click", ".remove", function(){
+     let key = $(this).prev()[0].innerHTML;
+     let marker = markerObj[key];
+     marker.setMap(null);
+     $(this).prev().remove();
+     $(this).remove();
+
+  });
+
 
 });
 
