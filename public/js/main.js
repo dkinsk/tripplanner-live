@@ -56,8 +56,50 @@ $(function initializeMap (){
     marker.setMap(currentMap);
   }
 
-  drawMarker('hotel', [40.705137, -74.007624]);
-  drawMarker('restaurant', [40.705137, -74.013940]);
-  drawMarker('activity', [40.716291, -73.995315]);
+  // drawMarker('hotel', [40.705137, -74.007624]);
+  // drawMarker('restaurant', [40.705137, -74.013940]);
+  // drawMarker('activity', [40.716291, -73.995315]);
+  $("button[data-action='add']").on("click", function(event){
+    let closest = $(this).closest('div').attr('class');
+    let selected = $(this).closest('div').find(":selected").text();
+    console.log(selected)
+    let array;
+
+    switch(closest){
+      case "hotel":
+      array = hotels;
+      break;
+
+      case "restaurant":
+      array = restaurants;
+      break;
+
+      case "activity":
+      array = activities;
+      break;
+    }
+
+    array.forEach(item => {
+      if(item.name === selected){
+        let obj = item; 
+        console.log(obj)
+    $('.my-' + closest).append('<span class="title">' + obj.name + '</span><button class="btn btn-xs btn-danger remove btn-circle">x</button>')
+    drawMarker(closest, obj.place.location);
+    }
+  });
+});
 
 });
+
+hotels.forEach(hotel => {
+    $('#hotel-choices').append('<option>' + hotel.name + '</option>')
+  });
+
+restaurants.forEach(restaurant => {
+    $('#restaurant-choices').append('<option>' + restaurant.name + '</option>')
+  });
+
+activities.forEach(activity => {
+    $('#activity-choices').append('<option>' + activity.name + '</option>')
+  });
+
