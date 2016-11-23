@@ -81,7 +81,7 @@ $(function initializeMap (){
 
     array.forEach(item => {
       if(item.name === selected){
-        let obj = item; 
+        let obj = item;
     $('.my-' + closest).append('<span class="title">' + obj.name + '</span><button data-action="remove" class="btn btn-xs btn-danger remove btn-circle">x</button>')
     markerObj[obj.name] = drawMarker(closest, obj.place.location);
     }
@@ -94,10 +94,14 @@ $(function initializeMap (){
      marker.setMap(null);
      $(this).prev().remove();
      $(this).remove();
-
   });
 
 });
+
+const days = {};
+console.log('THIS RAN');
+days['0'] = $('.panel-heading').next().clone(true);
+const cleanSlate = days[0];
 
 hotels.forEach(hotel => {
     $('#hotel-choices').append('<option>' + hotel.name + '</option>')
@@ -113,7 +117,25 @@ activities.forEach(activity => {
 
 $('#day-add').on('click', function(event){
   let day = $(this).prev()[0].innerHTML;
-  $('<button class="btn btn-circle day-btn current-day">' + (+day+1) + '</button>').appendTo('.day-buttons');
-  console.log(day)
-})
+  $('<button class="btn btn-circle day-btn">' + (+day + 1) + '</button>').insertAfter($(this).prev());
+  // days.push(cleanSlate);
+  // $('#itinerary').replaceAll(cleanSlate);
+});
 
+$('.day-buttons').on('click', '.day-btn', function (event) {
+  let previousDay = $(this).closest('div').find('.current-day')[0].innerHTML;
+  console.log('previous day', previousDay);
+  days[previousDay] = $(document).find('.panel-heading').next().clone(true);
+  console.log('days object', days);
+  $(this).closest('div').find('.current-day').removeClass('current-day');
+  $(this).addClass('current-day');
+  let dayNum = $(this)[0].innerHTML;
+  $(document).find('.day-num').text(dayNum);
+  console.log('day num', dayNum);
+  if (days[dayNum]) {
+    console.log('got here', days[dayNum]);
+    $(document).find('#itinerary').replaceWith(days[dayNum][0]);
+  } else {
+    $(document).find('#itinerary').replaceWith(cleanSlate[0]);
+  }
+})

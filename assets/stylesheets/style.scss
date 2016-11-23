@@ -139,7 +139,15 @@ h3 {
   }
 }
 
-
+#day-add {
+  border-width: 2px;
+  width: 30px !important;
+  height: 30px !important;
+  padding: 5px 5px;
+  background: $transparent;
+  border-color: $light-blue;
+  color: $light-blue;
+}
 
 .panel-default {
   background: lighten($medium-brown, 53%);
@@ -172,6 +180,7 @@ h3 {
     width: 20px;
   }
 }
+
 
 #day-title {
   display: inline-block;
