@@ -97,7 +97,6 @@ $(function initializeMap (){
 
   });
 
-
 });
 
 hotels.forEach(hotel => {
@@ -111,4 +110,10 @@ restaurants.forEach(restaurant => {
 activities.forEach(activity => {
     $('#activity-choices').append('<option>' + activity.name + '</option>')
   });
+
+$('#day-add').on('click', function(event){
+  let day = $(this).prev()[0].innerHTML;
+  $('<button class="btn btn-circle day-btn current-day">' + (+day+1) + '</button>').appendTo('.day-buttons');
+  console.log(day)
+})
 
